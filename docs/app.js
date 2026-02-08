@@ -9,8 +9,13 @@ const TLE_LINE2 = "2 25544  51.6420  20.0000 0005000  10.0000  20.0000 15.500000
 const outEl = document.getElementById("out");
 const statusEl = document.getElementById("status");
 const runBtn = document.getElementById("run");
+const tleDisplayEl = document.getElementById("tle-display");
 
 let satelliteLib = null;
+
+if (tleDisplayEl) {
+  tleDisplayEl.textContent = `${TLE_NAME}\n${TLE_LINE1}\n${TLE_LINE2}`;
+}
 
 function fmt(n, digits = 3) {
   if (!Number.isFinite(n)) return "NaN";
