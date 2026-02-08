@@ -186,6 +186,26 @@ function propagateSeries(sat, satrec, observerGd, startDate, spanMin, stepMin) {
   return points;
 }
 
+function splitVisiblePasses(points) {
+  const passes = [];
+  let currentPass = [];
+
+  points.forEach((point) => {
+    if (point.altDeg >= 0) {
+      currentPass.push(point);
+    } else if (currentPass.length > 0) {
+      passes.push(currentPass);
+      currentPass = [];
+    }
+  });
+
+  if (currentPass.length > 0) {
+    passes.push(currentPass);
+  }
+
+  return passes;
+}
+
 async function plot() {
   try {
     ids.status.textContent = "Plotting…";
@@ -223,13 +243,15 @@ async function plot() {
       const satrec = sat.twoline2satrec(obj.line1, obj.line2);
       const points = propagateSeries(sat, satrec, observerGd, startDate, spanMin, stepMin);
       const visible = points.filter((point) => point.altDeg >= 0);
+      const visiblePasses = splitVisiblePasses(points);
       const color = palette[idx % palette.length];
 
-      if (visible.length > 1) {
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      visiblePasses.forEach((pass) => {
+        if (pass.length <= 1) return;
         ctx.beginPath();
-        visible.forEach((point, pointIndex) => {
+        pass.forEach((point, pointIndex) => {
           const pos = skyPoint(point.azDeg, point.altDeg, radius);
           if (pointIndex === 0) {
             ctx.moveTo(pos.x, pos.y);
@@ -238,7 +260,7 @@ async function plot() {
           }
         });
         ctx.stroke();
-      }
+      });
 
       if (visible.length > 0) {
         const last = visible[visible.length - 1];
