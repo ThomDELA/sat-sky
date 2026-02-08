@@ -1,11 +1,29 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Satellite Sky</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>sat-sky — SGP4 test</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    body { margin: 16px; }
+    pre { padding: 12px; border: 1px solid #ddd; border-radius: 8px; overflow: auto; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin: 10px 0; }
+    button { padding: 8px 12px; }
+  </style>
 </head>
 <body>
-  <h1>Satellite Sky</h1>
-  <p>If you see this, GitHub Pages works 🚀</p>
+  <h1>SGP4 propagation test</h1>
+
+  <div class="row">
+    <button id="run">Propagate now</button>
+    <span id="status"></span>
+  </div>
+
+  <pre id="out">Loading…</pre>
+
+  <!-- satellite.js includes SGP4 -->
+  <script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.1/dist/satellite.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
