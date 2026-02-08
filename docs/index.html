@@ -3,28 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>sat-sky — SGP4 test</title>
-  <style>
-    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    body { margin: 16px; }
-    pre { padding: 12px; border: 1px solid #ddd; border-radius: 8px; overflow: auto; }
-    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin: 10px 0; }
-    button { padding: 8px 12px; }
-  </style>
+  <title>sat-sky docs</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <h1>SGP4 propagation test</h1>
+  <h1>sat-sky docs hub</h1>
+  <p>Select a test page:</p>
 
-  <div class="row">
-    <button id="run">Propagate now</button>
-    <span id="status"></span>
-  </div>
+  <ul>
+    <li><a href="tests/sgp4-basic.html">SGP4 basic propagation</a></li>
+    <li><a href="tests/time-slider.html">Time slider (placeholder)</a></li>
+    <li><a href="tests/altaz.html">Alt/Az test (placeholder)</a></li>
+  </ul>
 
-  <h2>TLE queued for propagation</h2>
-  <pre id="tle-display">Loading TLE…</pre>
-
-  <pre id="out">Loading…</pre>
-
-  <script type="module" src="app.js"></script>
+  <p class="muted">Add more test pages under <code>docs/tests/</code> and matching scripts under <code>docs/js/</code>.</p>
 </body>
 </html>
