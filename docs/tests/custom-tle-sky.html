@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>sat-sky — custom TLE sky plot</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <p><a href="../index.html">← Back to docs hub</a></p>
+  <h1>Custom TLE sky trajectories</h1>
+  <p class="muted">Paste one or more TLEs, then plot where each object appears in your local sky.</p>
+
+  <div class="panel">
+    <h2>Observer</h2>
+    <div class="grid3">
+      <label>Latitude (deg)<input id="obs-lat" type="number" step="0.0001" value="40.7128" /></label>
+      <label>Longitude (deg)<input id="obs-lon" type="number" step="0.0001" value="-74.0060" /></label>
+      <label>Altitude (m)<input id="obs-alt" type="number" step="1" value="10" /></label>
+    </div>
+    <div class="grid3">
+      <label>Start time (UTC)<input id="start-time" type="datetime-local" /></label>
+      <label>Span (minutes)<input id="span-min" type="number" min="10" max="720" step="10" value="180" /></label>
+      <label>Sample step (minutes)<input id="step-min" type="number" min="1" max="20" step="1" value="2" /></label>
+    </div>
+    <div class="row">
+      <button id="plot">Plot trajectories</button>
+      <span id="status" class="muted">Loading…</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>TLE input</h2>
+    <p class="muted">Format: either 3 lines (name + line1 + line2) or 2 lines (line1 + line2). Separate objects by blank lines.</p>
+    <textarea id="tle-input" rows="14" class="block-input"></textarea>
+  </div>
+
+  <div class="panel">
+    <h2>Sky plot</h2>
+    <canvas id="sky-canvas" width="620" height="620" aria-label="Custom TLE sky trajectory plot"></canvas>
+    <p class="muted">Outer ring is horizon (0° altitude), center is zenith (90°). Only above-horizon path segments are drawn.</p>
+  </div>
+
+  <pre id="out"></pre>
+
+  <script type="module" src="../js/custom-tle-sky.js"></script>
+</body>
+</html>
