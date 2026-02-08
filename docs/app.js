@@ -1,5 +1,3 @@
-import * as satellite from "https://cdn.jsdelivr.net/npm/satellite.js";
-
 "use strict";
 
 // A known example TLE (ISS). It may not be “current”, but SGP4 propagation still works.
@@ -12,43 +10,82 @@ const outEl = document.getElementById("out");
 const statusEl = document.getElementById("status");
 const runBtn = document.getElementById("run");
 
+let satelliteLib = null;
+
 function fmt(n, digits = 3) {
   if (!Number.isFinite(n)) return "NaN";
   return n.toFixed(digits);
 }
 
-function toRad(deg) { return deg * Math.PI / 180; }
-function toDeg(rad) { return rad * 180 / Math.PI; }
+function toDeg(rad) {
+  return rad * 180 / Math.PI;
+}
 
-function propagateAndPrint(date) {
-  // 1) Parse TLE -> satrec
-  const satrec = satellite.twoline2satrec(TLE_LINE1, TLE_LINE2);
+function appendTrace(lines, label, value) {
+  lines.push(`${label}: ${value}`);
+}
 
-  // 2) Propagate to ECI (km)
-  const pv = satellite.propagate(satrec, date);
+async function loadSatelliteLib(traceLines) {
+  if (satelliteLib) {
+    appendTrace(traceLines, "Library", "satellite.js already loaded");
+    return satelliteLib;
+  }
+
+  const sources = [
+    "https://cdn.jsdelivr.net/npm/satellite.js/+esm",
+    "https://unpkg.com/satellite.js/dist/satellite.es.js"
+  ];
+
+  for (const src of sources) {
+    try {
+      appendTrace(traceLines, "Trying module", src);
+      const mod = await import(src);
+      satelliteLib = mod.default ?? mod;
+      appendTrace(traceLines, "Module load", "success");
+      return satelliteLib;
+    } catch (err) {
+      appendTrace(traceLines, "Module load error", `${src} -> ${String(err?.message || err)}`);
+    }
+  }
+
+  throw new Error("Unable to load satellite.js from CDN sources.");
+}
+
+function propagateAndPrint(date, sat, traceLines) {
+  appendTrace(traceLines, "Step 1", "Parse TLE into satrec");
+  const satrec = sat.twoline2satrec(TLE_LINE1, TLE_LINE2);
+  appendTrace(traceLines, "satrec.satnum", satrec.satnum);
+
+  appendTrace(traceLines, "Step 2", "Propagate to ECI");
+  const pv = sat.propagate(satrec, date);
   if (!pv.position || !pv.velocity) {
     throw new Error("Propagation failed (position/velocity missing).");
   }
 
-  const gmst = satellite.gstime(date);
+  appendTrace(traceLines, "Step 3", "Compute GMST");
+  const gmst = sat.gstime(date);
 
-  // 3) Convert ECI -> ECF
-  const ecf = satellite.eciToEcf(pv.position, gmst);
+  appendTrace(traceLines, "Step 4", "Convert ECI -> ECF");
+  const ecf = sat.eciToEcf(pv.position, gmst);
 
-  // 4) Convert ECF -> geodetic lat/lon/height
-  const geo = satellite.eciToGeodetic(pv.position, gmst);
+  appendTrace(traceLines, "Step 5", "Convert ECI -> geodetic");
+  const geo = sat.eciToGeodetic(pv.position, gmst);
   const latDeg = toDeg(geo.latitude);
   const lonDeg = toDeg(geo.longitude);
   const hKm = geo.height;
 
-  // 5) Print
   const lines = [];
   lines.push(`Satellite: ${TLE_NAME}`);
-  lines.push(`TLE:`);
+  lines.push("TLE:");
   lines.push(`  ${TLE_LINE1}`);
   lines.push(`  ${TLE_LINE2}`);
   lines.push("");
   lines.push(`Date (UTC): ${date.toISOString()}`);
+  lines.push("");
+  lines.push("Computation trace:");
+  for (const entry of traceLines) {
+    lines.push(`  - ${entry}`);
+  }
   lines.push("");
   lines.push("ECI position (km):");
   lines.push(`  x=${fmt(pv.position.x)}  y=${fmt(pv.position.y)}  z=${fmt(pv.position.z)}`);
@@ -66,17 +103,33 @@ function propagateAndPrint(date) {
   outEl.textContent = lines.join("\n");
 }
 
-function runOnce() {
+async function runOnce() {
+  const traceLines = [];
   try {
     statusEl.textContent = "Running…";
+    appendTrace(traceLines, "Status", "Starting propagation pipeline");
+
+    const sat = await loadSatelliteLib(traceLines);
     const now = new Date();
-    propagateAndPrint(now);
+    appendTrace(traceLines, "Input date", now.toISOString());
+
+    propagateAndPrint(now, sat, traceLines);
     statusEl.textContent = "OK";
   } catch (e) {
     statusEl.textContent = "Error";
-    outEl.textContent = String(e && e.message ? e.message : e);
+    const details = String(e?.message || e);
+    outEl.textContent = [
+      "Computation failed.",
+      "",
+      ...traceLines.map((entry) => `- ${entry}`),
+      "",
+      `Error: ${details}`
+    ].join("\n");
   }
 }
 
-runBtn.addEventListener("click", runOnce);
-runOnce(); // run on load
+runBtn.addEventListener("click", () => {
+  void runOnce();
+});
+
+void runOnce(); // run on load
