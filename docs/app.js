@@ -1,4 +1,5 @@
-/* global satellite */
+import * as satellite from "https://cdn.jsdelivr.net/npm/satellite.js@5.0.1/+esm";
+
 "use strict";
 
 // A known example TLE (ISS). It may not be “current”, but SGP4 propagation still works.
