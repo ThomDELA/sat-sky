@@ -1,4 +1,4 @@
-import * as satellite from "https://cdn.jsdelivr.net/npm/satellite.js@5.0.1/+esm";
+import * as satellite from "https://cdn.jsdelivr.net/npm/satellite.js";
 
 "use strict";
 
