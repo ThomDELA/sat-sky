@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>sat-sky — sky trajectory</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <p><a href="../index.html">← Back to docs hub</a></p>
+  <h1>Orbit trajectory in your sky</h1>
+  <p class="muted">Sweep through one synthetic orbit and see where the satellite appears in your local sky (alt/az).</p>
+
+  <div class="panel">
+    <h2>Observer</h2>
+    <div class="grid3">
+      <label>Latitude (deg)<input id="obs-lat" type="number" step="0.0001" value="40.7128" /></label>
+      <label>Longitude (deg)<input id="obs-lon" type="number" step="0.0001" value="-74.0060" /></label>
+      <label>Animation speed (ms/step)<input id="step-ms" type="number" step="10" min="20" value="120" /></label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Time in orbit</h2>
+    <div class="row">
+      <input id="time-slider" type="range" min="0" max="95" step="1" value="0" />
+      <strong id="time-label">0 / 95 min</strong>
+    </div>
+    <div class="row">
+      <button id="play">Play</button>
+      <button id="pause">Pause</button>
+      <span id="status" class="muted"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Sky plot</h2>
+    <canvas id="sky-canvas" width="520" height="520" aria-label="Sky trajectory plot"></canvas>
+    <p class="muted">Outer ring is the horizon (0° altitude), center is zenith (90°). North is up, East is right.</p>
+  </div>
+
+  <pre id="out">Loading…</pre>
+
+  <script type="module" src="../js/sky-trajectory.js"></script>
+</body>
+</html>
