@@ -8,7 +8,34 @@
 </head>
 <body>
   <p><a href="../index.html">← Back to docs hub</a></p>
-  <h1>Alt/Az test</h1>
-  <p class="muted">Placeholder page ready for future implementation.</p>
+  <h1>Alt/Az coordinate manipulation</h1>
+  <p class="muted">Convert an observer + target geodetic position into ECEF, ENU, then altitude/azimuth.</p>
+
+  <div class="panel">
+    <h2>Observer</h2>
+    <div class="grid3">
+      <label>Latitude (deg)<input id="obs-lat" type="number" step="0.0001" value="48.8566" /></label>
+      <label>Longitude (deg)<input id="obs-lon" type="number" step="0.0001" value="2.3522" /></label>
+      <label>Altitude (m)<input id="obs-alt" type="number" step="1" value="35" /></label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Target</h2>
+    <div class="grid3">
+      <label>Latitude (deg)<input id="tgt-lat" type="number" step="0.0001" value="51.5074" /></label>
+      <label>Longitude (deg)<input id="tgt-lon" type="number" step="0.0001" value="-0.1278" /></label>
+      <label>Altitude (m)<input id="tgt-alt" type="number" step="1" value="400000" /></label>
+    </div>
+  </div>
+
+  <div class="row">
+    <button id="compute">Compute coordinates</button>
+    <span id="status"></span>
+  </div>
+
+  <pre id="out">Ready.</pre>
+
+  <script type="module" src="../js/altaz.js"></script>
 </body>
 </html>

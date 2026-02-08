@@ -39,3 +39,41 @@ button {
 .muted {
   color: #666;
 }
+
+.panel {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  background: #fff;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+input[type="number"] {
+  max-width: 220px;
+  padding: 6px;
+}
+
+input[type="range"] {
+  width: min(620px, 100%);
+}
+
+.grid2,
+.grid3 {
+  display: grid;
+  gap: 10px;
+}
+
+.grid2 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.grid3 {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
