@@ -1,5 +1,7 @@
 # sat-sky
 
+https://thomdela.github.io/sat-sky/
+
 **sat-sky** is a small web app that shows **satellites currently visible** from a given observer location.
 
 It focuses on a simple workflow:
