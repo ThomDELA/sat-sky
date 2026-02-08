@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>sat-sky — SGP4 basic test</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <p><a href="../index.html">← Back to docs hub</a></p>
+  <h1>SGP4 propagation test</h1>
+
+  <div class="row">
+    <button id="run">Propagate now</button>
+    <span id="status"></span>
+  </div>
+
+  <h2>TLE queued for propagation</h2>
+  <pre id="tle-display">Loading TLE…</pre>
+
+  <pre id="out">Loading…</pre>
+
+  <script type="module" src="../js/sgp4-basic.js"></script>
+</body>
+</html>
