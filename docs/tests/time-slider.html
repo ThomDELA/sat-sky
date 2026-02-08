@@ -8,7 +8,32 @@
 </head>
 <body>
   <p><a href="../index.html">← Back to docs hub</a></p>
-  <h1>Time slider test</h1>
-  <p class="muted">Placeholder page ready for future implementation.</p>
+  <h1>Time slider + moving coordinate example</h1>
+  <p class="muted">Move through one full orbit and inspect a synthetic satellite subpoint + observer-relative Alt/Az.</p>
+
+  <div class="panel">
+    <div class="grid2">
+      <label>Observer latitude (deg)
+        <input id="obs-lat" type="number" step="0.0001" value="40.7128" />
+      </label>
+      <label>Observer longitude (deg)
+        <input id="obs-lon" type="number" step="0.0001" value="-74.0060" />
+      </label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <label for="time-slider">Orbit phase (minutes)</label>
+    <input id="time-slider" type="range" min="0" max="95" value="0" step="1" />
+    <div class="row">
+      <button id="play">Play</button>
+      <button id="pause">Pause</button>
+      <span id="phase-label" class="muted"></span>
+    </div>
+  </div>
+
+  <pre id="out">Ready.</pre>
+
+  <script type="module" src="../js/time-slider.js"></script>
 </body>
 </html>
