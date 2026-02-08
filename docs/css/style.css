@@ -85,3 +85,12 @@ canvas {
   max-width: 100%;
   height: auto;
 }
+
+
+.block-input {
+  width: min(900px, 100%);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
