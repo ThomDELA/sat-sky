@@ -77,3 +77,11 @@ input[type="range"] {
 .grid3 {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
+
+canvas {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  max-width: 100%;
+  height: auto;
+}
